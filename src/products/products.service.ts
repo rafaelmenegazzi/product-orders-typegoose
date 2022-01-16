@@ -5,6 +5,7 @@ import { InjectModel } from 'nestjs-typegoose';
 
 import { Product } from './models/product.model';
 import { CreateProductDto } from './dto/create-product.dto';
+import { Order } from 'src/orders/models/order.model';
 
 @Injectable()
 export class ProductsService {
@@ -39,9 +40,9 @@ export class ProductsService {
     return products.map((p) => plainToClass(Product, p));
   }
 
-  async sell(productIds: string[]): Promise<Product[]> {
+  async sell(productIds: string[], order: Order): Promise<Product[]> {
     const products = await this.findByIds(productIds);
-    products.forEach((p) => p.sell());
+    products.forEach((p) => p.sell(order));
     await Promise.all(
       products.map((p) =>
         this.productModel.findByIdAndUpdate(p._id, p, this.opts),
