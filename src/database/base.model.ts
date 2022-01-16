@@ -7,10 +7,10 @@ const nanoid = customAlphabet('1234567890abcdef', 10);
   options: { allowMixed: Severity.ALLOW },
   schemaOptions: {
     timestamps: true,
-    // toJSON: {
-    //   virtuals: true,
-    //   getters: true,
-    // },
+    toJSON: {
+      virtuals: true,
+      getters: true,
+    },
   },
 })
 export abstract class BaseModel {

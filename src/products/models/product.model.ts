@@ -1,8 +1,10 @@
 import { prop, Ref } from '@typegoose/typegoose';
-import { Order } from 'src/orders/models/order.model';
 
 import { BaseModel } from '../../database/base.model';
+import { useMongoosePlugin } from '../../decorators/use-mongoose-plugins.decorator';
+import { Order } from '../../orders/models/order.model';
 
+@useMongoosePlugin()
 export class Product extends BaseModel {
   @prop({ required: true })
   name: string;
@@ -16,7 +18,11 @@ export class Product extends BaseModel {
   @prop({ enum: ['IN_STOCK', 'SOLD'], default: 'IN_STOCK' })
   status: string;
 
-  @prop({ ref: () => Order, type: () => String })
+  @prop({
+    ref: () => Order,
+    type: () => String,
+    autopopulate: { maxDepth: 1 },
+  })
   order: Ref<Order, string>;
 
   public sell(order: Order) {

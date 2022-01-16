@@ -28,7 +28,7 @@ export class OrdersService {
   }
 
   async findAll(): Promise<Order[]> {
-    const orders = await this.orderModel.find().lean();
-    return orders.map((o) => plainToClass(Order, o));
+    const orders = await this.orderModel.find().exec();
+    return orders.map((o) => plainToClass(Order, o.toJSON()));
   }
 }

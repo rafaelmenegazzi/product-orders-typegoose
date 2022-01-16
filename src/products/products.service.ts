@@ -22,13 +22,13 @@ export class ProductsService {
   }
 
   async findAll(): Promise<Product[]> {
-    const products = await this.productModel.find().lean();
-    return products.map((p) => plainToClass(Product, p));
+    const products = await this.productModel.find().exec();
+    return products.map((p) => plainToClass(Product, p.toJSON()));
   }
 
   async findById(id: string): Promise<Product> {
-    const product = await this.productModel.findById(id).lean();
-    return plainToClass(Product, product);
+    const product = await this.productModel.findById(id).exec();
+    return plainToClass(Product, product.toJSON());
   }
 
   async findByIds(ids: string[]): Promise<Product[]> {
@@ -36,8 +36,8 @@ export class ProductsService {
       .find({
         _id: { $in: ids },
       })
-      .lean();
-    return products.map((p) => plainToClass(Product, p));
+      .exec();
+    return products.map((p) => plainToClass(Product, p.toJSON()));
   }
 
   async sell(productIds: string[], order: Order): Promise<Product[]> {
