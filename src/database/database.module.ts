@@ -1,9 +1,18 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypegooseModule } from 'nestjs-typegoose';
+
+import { DatabaseConfig } from '../config/configuration';
 
 @Module({
   imports: [
-    TypegooseModule.forRoot('mongodb://localhost:27017/costumer-orders'),
+    TypegooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<DatabaseConfig>('database').uri,
+      }),
+      inject: [ConfigService],
+    }),
   ],
   controllers: [],
   providers: [],
