@@ -27,6 +27,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@typegoose/typegoose": "^9.5.0",
     "mongoose": "^6.1.6",
+    "nanoid": "^3.2.0",
     "nestjs-typegoose": "^7.1.38",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
